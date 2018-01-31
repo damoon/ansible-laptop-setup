@@ -8,9 +8,9 @@
   file:
     state: directory
     recurse: true
-    path: ~/config/htop/
+    path: ~/.config/htop/
 
 - name: configure htop
   template:
     src: htoprc
-    dest: ~/config/htop/.htoprc
+    dest: ~/.config/htop/.htoprc
