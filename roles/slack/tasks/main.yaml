@@ -1,0 +1,17 @@
+
+- name: add repo key
+  become: true
+  apt_key:
+    url: https://packagecloud.io/slacktechnologies/slack/gpgkey
+
+- name: add repo
+  become: true
+  apt_repository:
+    repo: "deb https://packagecloud.io/slacktechnologies/slack/debian/ jessie main"
+    filename: "google-chrome"
+    update_cache: yes
+
+- name: install slack
+  become: true
+  package:
+    name: slack-desktop

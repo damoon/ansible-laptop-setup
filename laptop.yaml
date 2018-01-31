@@ -12,3 +12,4 @@
     - role: kubectl
     - role: tools
     - role: golang
+    - role: slack
