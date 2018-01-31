@@ -1,0 +1,22 @@
+- name: add repo key
+  become: true
+  apt_key:
+    url: "https://packages.microsoft.com/keys/microsoft.asc"
+
+- name: add repo
+  become: true
+  apt_repository:
+    repo: "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
+    filename: "vscode"
+    update_cache: yes
+
+- name: install vscode
+  become: true
+  package:
+    name: code
+
+- name: install extensions
+  shell: "which code && code --install-extension '{{ item }}'"
+  with_items: "{{ visual_studio_code_extensions }}"
+  register: vscode_result
+  changed_when: "'already installed' not in vscode_result.stdout"

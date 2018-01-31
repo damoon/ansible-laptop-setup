@@ -1,0 +1,24 @@
+
+- name: download kubectl binary
+  become: true
+  get_url:
+    url: "https://storage.googleapis.com/kubernetes-release/release/{{ kubernetes_version }}/bin/linux/amd64/kubectl"
+    dest: "/usr/local/bin/kubectl-{{ kubernetes_version }}"
+    mode: 0755
+
+- name: use current kubectl version
+  become: true
+  file:
+    dest: "/usr/local/bin/kubectl"
+    src: "/usr/local/bin/kubectl-{{ kubernetes_version }}"
+    state: link
+
+- name: configure zsh plugins
+  lineinfile:
+    dest: ~/.zshrc
+    regexp: "^  {{ item }}$"
+    insertafter: "^plugins=\\("
+    line: "  {{ item }}"
+    state: present
+  with_items:
+    - kubectl

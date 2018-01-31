@@ -1,0 +1,29 @@
+
+- name: install golang-1.9
+  become: true
+  apt:
+    pkg: "{{ item }}"
+  with_items:
+    - golang-1.9
+
+- name: configure zsh plugins
+  lineinfile:
+    dest: ~/.zshrc
+    regexp: "^  {{ item }}$"
+    insertafter: "^plugins=\\("
+    line: "  {{ item }}"
+    state: present
+  with_items:
+    - golang
+
+- lineinfile:
+    path: ~/.zshrc
+    line: "{{ item }}"
+  with_items:
+    - export PATH="$PATH:/usr/lib/go-1.9/bin"
+    - export GOPATH="$HOME"
+
+- name: install vscode extensions
+  shell: "which code && code --install-extension 'lukehoban.Go'"
+  register: vscode_result
+  changed_when: "'already installed' not in vscode_result.stdout"

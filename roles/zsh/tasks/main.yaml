@@ -1,0 +1,35 @@
+
+- name: install zsh, git
+  become: true
+  apt:
+    pkg: zsh,git
+  register: installation
+
+- name: clone oh-my-zsh
+  git:
+    repo: https://github.com/robbyrussell/oh-my-zsh
+    dest: ~/.oh-my-zsh
+  when: installation|success
+  register: cloning
+
+- name: configure oh-my-zsh use
+  copy:
+    src: ~/.oh-my-zsh/templates/zshrc.zsh-template
+    dest: ~/.zshrc
+    force: no
+  when: cloning|success
+
+- name: use zsh as default
+  become: true
+  user:
+    name: "{{ lookup('env', 'USER') }}"
+    shell: /bin/zsh
+
+- lineinfile:
+    path: ~/.zshrc
+    line: "{{ item }}"
+  with_items:
+    - setopt NO_SHARE_HISTORY
+    - setopt NO_BEEP
+    - alias gg='git gg'
+    - alias :D='git gg && git st'

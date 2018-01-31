@@ -1,0 +1,32 @@
+
+- name: install tools
+  become: true
+  apt:
+    pkg: "{{ item }}"
+  with_items:
+    - curl
+    - wget
+    - terminator
+    - gimp
+    - rsync
+    - openssh-client
+    - meld
+
+- name: configure zsh plugins
+  lineinfile:
+    dest: ~/.zshrc
+    regexp: "^  {{ item }}$"
+    insertafter: "^plugins=\\("
+    line: "  {{ item }}"
+    state: present
+  with_items:
+    - ssh-agent
+    - man
+    - dotenv
+    - systemd
+    - rsync
+    - screen
+    - command-not-found
+    - colored-man-pages
+    - web-search
+

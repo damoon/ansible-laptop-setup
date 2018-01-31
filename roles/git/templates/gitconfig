@@ -1,0 +1,34 @@
+[user]
+	email = {{ git_email }}
+	name = {{ git_name }}
+[core]
+	editor = nano
+	whitespace = trailing-space,space-before-tab
+	pager = less -F -X
+[merge]
+	tool = meld
+	ff = only
+[alias]
+	st = status
+	ci = commit
+	br = branch
+	co = checkout
+	df = diff
+	lg = log -p
+	rb = rebase
+	gg = log --tags --graph --oneline --decorate --all -n 20
+[pull]
+	rebase = true
+[color]
+	branch = auto
+	diff = auto
+	status = auto
+	interactive = auto
+[diff]
+	renames = true
+[push]
+	default = simple
+[apply]
+	whitespace = fix
+[pull]
+	rebase = true

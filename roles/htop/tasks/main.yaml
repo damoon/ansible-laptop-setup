@@ -1,0 +1,16 @@
+
+- name: install htop
+  become: true
+  apt:
+    pkg: htop
+
+- name: create htop config directory
+  file:
+    state: directory
+    recurse: true
+    path: ~/config/htop/
+
+- name: configure htop
+  template:
+    src: htoprc
+    dest: ~/config/htop/.htoprc

@@ -1,0 +1,14 @@
+- name: setup laptop
+  hosts: laptop
+  roles:
+    - role: remove-amazon
+    - role: chrome
+    - role: vscode
+    - role: zsh
+    - role: git
+    - role: keepass
+    - role: docker
+    - role: htop
+    - role: kubectl
+    - role: tools
+    - role: golang

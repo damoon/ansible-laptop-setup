@@ -1,0 +1,10 @@
+
+- name: add repo
+  become: true
+  apt_repository:
+    repo: 'ppa:phoerious/keepassxc'
+
+- name: install chrome
+  become: true
+  package:
+    name: keepassxc

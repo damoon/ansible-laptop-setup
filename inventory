@@ -1,0 +1,6 @@
+[all]
+laptop ansible_connection=local
+
+[ubuntu]
+laptop
+

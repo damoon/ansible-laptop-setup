@@ -1,0 +1,22 @@
+
+- name: install git
+  become: true
+  apt:
+    pkg: "{{ item }}"
+  with_items:
+    - npm
+    - nodejs-legacy
+
+- name: configure zsh
+  lineinfile:
+    path: ~/.zshrc
+    line: "{{ item }}"
+  with_items:
+    - unalias gr
+    - . <(gr completion)
+
+- name: install git-repository-management-tool via npm
+  become: true
+  npm:
+    name: git-run
+    global: yes

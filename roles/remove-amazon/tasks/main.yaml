@@ -1,0 +1,16 @@
+
+- name: remove amazon lense
+  become: true
+  package:
+    name: unity-lens-shopping
+    state: absent
+
+- name: remove amazon links
+  become: true
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - /usr/share/applications/ubuntu-amazon-default.desktop
+    - /usr/share/unity-webapps/userscripts/unity-webapps-amazon/Amazon.user.js
+    - /usr/share/unity-webapps/userscripts/unity-webapps-amazon/manifest.json
