@@ -13,6 +13,7 @@
     - role: tools
     - role: golang
     - role: slack
+    - role: syncthing
     - role: virtualbox
     - role: vagrant
     - role: minikube
