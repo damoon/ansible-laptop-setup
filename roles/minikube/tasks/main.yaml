@@ -1,0 +1,19 @@
+
+- name:  download minikube package
+  get_url:
+    url: https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+    dest: /tmp/minikube
+    force: no
+    validate_certs: no
+
+- name: move minikube to /usr/local/bin/
+  become: true
+  copy:
+    src: /tmp/minikube
+    dest: /usr/local/bin/minikube
+    mode: "u=rwx,g=rx,o=rx"
+
+- name: cleanup download tmp folder
+  file:
+    state: absent
+    path: "/tmp/minikube"
