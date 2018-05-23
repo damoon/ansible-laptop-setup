@@ -15,3 +15,4 @@
    - role: slack
    - role: virtualbox
    - role: vagrant
+   - role: minikube
