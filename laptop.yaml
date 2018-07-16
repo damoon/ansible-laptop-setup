@@ -10,6 +10,7 @@
     - role: docker
     - role: htop
     - role: kubectl
+    - role: minikube
     - role: tools
     - role: golang
     - role: slack
