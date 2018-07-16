@@ -15,6 +15,7 @@
     - role: golang
     - role: slack
     - role: syncthing
+    - role: java-ide
     - role: virtualbox
     - role: vagrant
     - role: minikube
