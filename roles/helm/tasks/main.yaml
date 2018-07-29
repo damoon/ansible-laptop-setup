@@ -1,0 +1,30 @@
+
+- name: create directory
+  become: true
+  file:
+    path: /usr/local/helm-{{ helm_version }}
+    state: directory
+
+- name: download and extract
+  become: true
+  unarchive:
+    src: https://storage.googleapis.com/kubernetes-helm/helm-{{ helm_version }}-linux-amd64.tar.gz
+    dest: /usr/local/helm-{{ helm_version }}
+    remote_src: yes
+
+- name: symlink current version
+  become: true
+  file:
+    dest: "/usr/local/bin/helm"
+    src: "/usr/local//helm-{{ helm_version }}/linux-amd64/helm"
+    state: link
+
+- name: configure zsh plugins
+  lineinfile:
+    dest: ~/.zshrc
+    regexp: "^  {{ item }}$"
+    insertafter: "^plugins=\\("
+    line: "  {{ item }}"
+    state: present
+  with_items:
+    - helm

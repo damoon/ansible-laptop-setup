@@ -11,6 +11,7 @@
     - role: htop
     - role: kubectl
     - role: minikube
+    - role: helm
     - role: tools
     - role: golang
     - role: slack
@@ -18,4 +19,3 @@
     - role: java-ide
     - role: virtualbox
     - role: vagrant
-    - role: minikube
