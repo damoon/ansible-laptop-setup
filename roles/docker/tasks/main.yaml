@@ -1,3 +1,9 @@
+
+- name: remove network manager
+  package:
+    name: network-manager
+    state: absent 
+
 - name: add repo key
   become: true
   apt_key:
@@ -26,15 +32,16 @@
 - name: download docker-compose
   become: true
   get_url:
-    url: https://github.com/docker/compose/releases/download/1.18.0/docker-compose-Linux-x86_64
-    dest: /usr/local/bin/docker-compose
-    checksum: sha256:b2f2c3834107f526b1d9cc8d8e0bdd132c6f1495b036a32cbc61b5288d2e2a01
+    url: https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-Linux-x86_64
+    dest: /usr/local/bin/docker-compose-{{ docker_compose_version }}
+    mode: a+rx
 
-- name: add execute permissions to docker-compose
+- name: use current docker-compose version
   become: true
   file:
-    path: /usr/local/bin/docker-compose
-    mode: a+rx
+    dest: "/usr/local/bin/docker-compose"
+    src: "/usr/local/bin/docker-compose-{{ docker_compose_version }}"
+    state: link
 
 - name: configure zsh plugins
   lineinfile:
