@@ -1,11 +1,16 @@
 
-- name: install git
+
+- name: add repo
+  become: true
+  apt_repository:
+    repo: deb https://deb.nodesource.com/node_10.x bionic main
+    update_cache: yes
+    filename: nodesource
+
+- name: install node
   become: true
   apt:
-    pkg: "{{ item }}"
-  with_items:
-    - npm
-    - nodejs-legacy
+    pkg: "nodejs"
 
 - name: configure zsh
   lineinfile:
