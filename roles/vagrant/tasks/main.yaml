@@ -1,25 +1,21 @@
 
 ---
-- name: create tmp folder for download
-  file:
-   path: /tmp/vagrant
-   recurse: yes
-   state: directory
 
-- name:  download vagrant package
-  get_url:
-    url: https://releases.hashicorp.com/vagrant/{{ vagrant_version }}/vagrant_{{ vagrant_version }}_x86_64.deb
-    dest: /tmp/vagrant/vagrant_{{ vagrant_version }}_x86_64.deb
-    force: no
-    validate_certs: no
+- name: add apt key
+  become: true
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: A2F683C52980AECF
 
-- name: Install package
+- name: add repo
+  become: true
+  apt_repository:
+    repo: deb https://vagrant-deb.linestarve.com/ any main
+    update_cache: yes
+    filename: wolfgang42-vagrant
+
+- name: install package
   become: true
   apt:
-    deb=/tmp/vagrant/vagrant_{{ vagrant_version }}_x86_64.deb
-    state=present
-
-- name: cleanup download tmp folder
-  file:
-    state: absent
-    path: "/tmp/vagrant/"
+    pkg: vagrant
+    state: latest
