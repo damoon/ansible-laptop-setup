@@ -24,6 +24,6 @@
     - export GOPATH="$HOME"
 
 - name: install vscode extensions
-  shell: "which code && code --install-extension 'lukehoban.Go'"
+  shell: "which code && code --install-extension 'ms-vscode.go'"
   register: vscode_result
   changed_when: "'already installed' not in vscode_result.stdout"
