@@ -2,8 +2,28 @@
 - name: download minikube binary
   become: true
   get_url:
-    url: "https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64"
+    url: "https://storage.googleapis.com/minikube/releases/{{ minikube_version }}/minikube-linux-amd64"
     dest: "/usr/local/bin/minikube"
     mode: 0755
 
-// TODO add autocompletion
+- name: use current minikube version
+  become: true
+  file:
+    dest: "/usr/local/bin/minikube"
+    src: "/usr/local/bin/minikube-{{ kubernetes_version }}"
+    state: link
+
+- name: configure zsh plugins
+  lineinfile:
+    dest: ~/.zshrc
+    regexp: "^  {{ item }}$"
+    insertafter: "^plugins=\\("
+    line: "  {{ item }}"
+    state: present
+  with_items:
+    - minkube
+
+- name: install socat
+  become: true
+  apt:
+    pkg: "socat"
