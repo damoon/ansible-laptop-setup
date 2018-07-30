@@ -1,10 +1,30 @@
 
-- name: install golang-1.9
+- name: download golang
+  get_url:
+    url: "https://dl.google.com/go/go{{ go_version_target }}.linux-amd64.tar.gz"
+    dest: "/usr/local/src/go{{ go_version_target }}.linux-amd64.tar.gz"
   become: true
-  apt:
-    pkg: "{{ item }}"
-  with_items:
-    - golang-1.9
+
+- name: get current version (if any)
+  command: /usr/local/go/bin/go version
+  ignore_errors: yes
+  register: go_version
+  changed_when: false
+
+- name: remove old installation
+  file:
+    path: /usr/local/go
+    state: absent
+  when: go_version is failed or go_version.stdout != go_version_target
+  become: true
+
+- name: extract go
+  unarchive:
+    src: "/usr/local/src/go{{ go_version_target }}.linux-amd64.tar.gz"
+    dest: /usr/local
+    copy: no
+  when: go_version is failed or go_version.stdout != go_version_target
+  become: true
 
 - name: configure zsh plugins
   lineinfile:
@@ -20,7 +40,7 @@
     path: ~/.zshrc
     line: "{{ item }}"
   with_items:
-    - export PATH="$PATH:/usr/lib/go-1.9/bin"
+    - export PATH="$PATH:/usr/local/go/bin"
     - export GOPATH="$HOME"
 
 - name: install vscode extensions
