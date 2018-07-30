@@ -10,7 +10,8 @@
 - name: install node
   become: true
   apt:
-    pkg: "nodejs"
+    pkg: nodejs
+    state: latest
 
 - name: configure zsh
   lineinfile:
