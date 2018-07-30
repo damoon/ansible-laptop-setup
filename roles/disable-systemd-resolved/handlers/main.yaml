@@ -1,0 +1,19 @@
+
+- name: remove resolv.conf
+  become: true
+  file:
+    path: /etc/resolv.conf
+    state: absent
+
+- name: symlink resolv.conf
+  become: true
+  file:
+    src: /etc/resolv.conf
+    dest: /run/resolvconf/resolv.conf
+    state: link
+
+- name: restart network-manager
+  become: true
+  systemd:
+    name: network-manager
+    state: restarted

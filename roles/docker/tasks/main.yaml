@@ -1,9 +1,4 @@
 
-- name: remove network manager
-  package:
-    name: network-manager
-    state: absent 
-
 - name: add repo key
   become: true
   apt_key:

@@ -2,6 +2,7 @@
   hosts: laptop
   roles:
     - role: remove-amazon
+    - role: disable-systemd-resolved
     - role: chrome
     - role: vscode
     - role: zsh

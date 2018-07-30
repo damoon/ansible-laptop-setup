@@ -1,0 +1,23 @@
+# https://easysolutionsit.de/artikel/linux-dns-problem-unter-ubuntu-17-10.html
+
+- name: disable systemd-resolved
+  become: true
+  systemd:
+    name: systemd-resolved
+    enabled: "no"
+    state: stopped
+  notify:
+    - remove resolv.conf
+    - symlink resolv.conf
+    - restart network-manager
+
+- name: disable local dnsmasq
+  become: true
+  lineinfile:
+    path: /etc/NetworkManager/NetworkManager.conf
+    regexp: '^dns='
+    line: 'dns=default'
+  notify:
+    - remove resolv.conf
+    - symlink resolv.conf
+    - restart network-manager
