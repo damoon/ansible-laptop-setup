@@ -1,8 +1,8 @@
 
 - name: download golang
   get_url:
-    url: "https://dl.google.com/go/go{{ go_version_target }}.linux-amd64.tar.gz"
-    dest: "/usr/local/src/go{{ go_version_target }}.linux-amd64.tar.gz"
+    url: "https://dl.google.com/go/go{{ go_version }}.linux-amd64.tar.gz"
+    dest: "/usr/local/src/go{{ go_version }}.linux-amd64.tar.gz"
   become: true
 
 - name: get current version (if any)
