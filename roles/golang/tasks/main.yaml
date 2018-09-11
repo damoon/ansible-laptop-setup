@@ -8,22 +8,22 @@
 - name: get current version (if any)
   command: /usr/local/go/bin/go version
   ignore_errors: yes
-  register: go_version
+  register: go_version_string
   changed_when: false
 
 - name: remove old installation
   file:
     path: /usr/local/go
     state: absent
-  when: go_version is failed or go_version.stdout != go_version_target
+  when: go_version_string is failed or go_version_string.stdout != go_version_target
   become: true
 
 - name: extract go
   unarchive:
-    src: "/usr/local/src/go{{ go_version_target }}.linux-amd64.tar.gz"
+    src: "/usr/local/src/go{{ go_version }}.linux-amd64.tar.gz"
     dest: /usr/local
     copy: no
-  when: go_version is failed or go_version.stdout != go_version_target
+  when: go_version_string is failed or go_version_string.stdout != go_version_target
   become: true
 
 - name: configure zsh plugins
