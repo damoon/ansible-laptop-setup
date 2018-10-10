@@ -1,0 +1,19 @@
+- name: add repo key
+  become: true
+  apt_key:
+    url: "https://bazel.build/bazel-release.pub.gpg"
+
+- name: add repo
+  become: true
+  apt_repository:
+    repo: "deb [arch=amd64] http://storage.googleapis.com/bazel-apt stable jdk1.8"
+    filename: "bazel"
+    update_cache: yes
+
+- name: install packages
+  become: true
+  package:
+    name: "{{ item }}"
+  with_items:
+    - openjdk-8-jdk
+    - bazel

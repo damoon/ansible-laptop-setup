@@ -15,6 +15,7 @@
     - role: helm
     - role: tools
     - role: golang
+    - role: bazel
     - role: slack
     - role: syncthing
     - role: java-ide
