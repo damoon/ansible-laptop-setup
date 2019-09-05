@@ -1,2 +1,2 @@
-go_version: "1.11"
-go_version_target: go version go1.11 linux/amd64
+go_version: "1.12.1"
+go_version_target: go version go1.12.1 linux/amd64
