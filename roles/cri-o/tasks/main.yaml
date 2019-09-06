@@ -1,0 +1,43 @@
+
+- name: add repo
+  become: true
+  apt_repository:
+    repo: 'ppa:projectatomic/ppa'
+    update_cache: yes
+
+- name: install packages
+  become: true
+  apt:
+    name: "{{ item }}"
+  with_items:
+    - cri-o-runc
+    - cri-o-1.12
+    - podman
+    - uidmap
+
+- name: podman registry configuration
+  become: true
+  copy:
+    src: registries.conf
+    dest: /etc/containers/registries.conf
+
+
+# https://kubernetes.io/docs/setup/cri/#cri-o
+- name: load kernel modules into runtime
+  become: true
+  modprobe:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - overlay
+    - br_netfilter
+
+- name: load kernel modules at bootup
+  become: true
+  lineinfile:
+    path: /etc/modules
+    regexp: "{{ item }}"
+    line: "{{ item }}"
+  with_items:
+    - overlay
+    - br_netfilter
